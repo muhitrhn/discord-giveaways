@@ -502,7 +502,10 @@ class Giveaway extends EventEmitter {
                 const embed = this.manager.generateEndEmbed(this, winners);
                 await this.message.edit({
                     content: this.messages.giveawayEnded, 
-                    embeds: [embed]
+                    embeds: [embed],
+                    allowedMentions: {
+                        parse: ["users", "everyone"]
+                    }
                 }).catch(() => {});
                 let formattedWinners = winners.map((w) => `<@${w.id}>`).join(', ');
                 const messageString = this.messages.winMessage
@@ -534,7 +537,10 @@ class Giveaway extends EventEmitter {
                 const embed = this.manager.generateNoValidParticipantsEndEmbed(this);
                 this.message.edit({
                     content: this.messages.giveawayEnded,
-                    embeds: [embed]
+                    embeds: [embed],
+                    allowedMentions: {
+                        parse: ["users", "everyone"]
+                    }
                 }).catch(() => {});
                 resolve([]);
             }
@@ -565,7 +571,10 @@ class Giveaway extends EventEmitter {
                 const embed = this.manager.generateEndEmbed(this, winners);
                 await this.message.edit({
                     content: this.messages.giveawayEnded, 
-                    embeds: [embed]
+                    embeds: [embed],
+                    allowedMentions: {
+                        parse: ["users", "everyone"]
+                    }
                 }).catch(() => {});
                 let formattedWinners = winners.map((w) => `<@${w.id}>`).join(', ');
                 const messageString = options.messages.congrat
