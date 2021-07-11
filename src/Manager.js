@@ -223,7 +223,10 @@ class GiveawaysManager extends EventEmitter {
             const embed = this.generateMainEmbed(giveaway);
             const message = await channel.send({
                 content: giveaway.messages.giveaway,
-                embeds: [embed]
+                embeds: [embed],
+                allowedMentions: {
+                    parse: ["users", "everyone"]
+                }
             });
             message.react(giveaway.reaction);
             giveaway.messageID = message.id;
@@ -417,14 +420,26 @@ class GiveawaysManager extends EventEmitter {
                 return;
             }
             const embed = this.generateMainEmbed(giveaway, giveaway.lastChance.enabled && giveaway.remainingTime < giveaway.lastChance.threshold);
-            giveaway.message.edit(giveaway.messages.giveaway, { embed }).catch(() => {});
+            giveaway.message.edit({
+                content: giveaway.messages.giveaway,
+                embeds: [embed],
+                allowedMentions: {
+                    parse: ["users", "everyone"]
+                }
+            }).catch(() => {});
             if (giveaway.remainingTime < this.options.updateCountdownEvery) {
                 setTimeout(() => this.end.call(this, giveaway.messageID), giveaway.remainingTime);
             }
             if (giveaway.lastChance.enabled && (giveaway.remainingTime - giveaway.lastChance.threshold) < this.options.updateCountdownEvery) {
                 setTimeout(() => {
                     const embed = this.generateMainEmbed(giveaway, true);
-                    giveaway.message.edit(giveaway.messages.giveaway, { embed }).catch(() => {});
+                    giveaway.message.edit({
+                        content: giveaway.messages.giveaway,
+                        embeds: [embed],
+                        allowedMentions: {
+                            parse: ["users", "everyone"]
+                        }
+                    }).catch(() => {});
                 }, giveaway.remainingTime - giveaway.lastChance.threshold);
             }
         });
